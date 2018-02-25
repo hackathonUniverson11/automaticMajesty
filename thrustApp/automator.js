@@ -69,14 +69,36 @@ function writeTestFile(file, arrayOfTests) {
 
   //aqui monta o test
   arrayOfTests.forEach(function (testCase) {
+    
+    var url = "http://localhost:8778/app/" + nomeApi + "/" + testCase.endPoint;
+    var params = "";
+    var result = "";
+    var expectedResult = "";
+    if(testCase.params != undefined){
+
+      params = JSON.stringify(testCase.params);
+    }
+
+    if(testCase.result != undefined){
+      result= testCase.result;
+      typeResult = typeof result;
+
+      if( typeResult == "string"){
+        expectedResult = "      expect(result.body).to.equal('"+result+"')";
+      } else {
+        expectedResult = "      expect(result.body).to.equal('"+JSON.stringify(result)+"')";
+      }
+    }
+
+
     contents.push("describe('Módulo de testes do hello world', function() {")
     contents.push("")
     contents.push(" describe('API [hello]', function() {")
     contents.push("    it('Realizar chamada no endpoint', function() {")
-    contents.push("      var result = httpClient." + testCase.method + "('http://localhost:8778/app/" + nomeApi + "/" + testCase.endPoint + "').fetch()")
+    contents.push("      var result = httpClient." + testCase.method + "('"+ url +"',"+params+").fetch()")
     contents.push("      print(JSON.stringify(result))")
     contents.push("      expect(result.code).to.equal(200)")
-    contents.push("      expect(result.body).to.equal('Hello, you sent me the following params: {}')")
+    contents.push(expectedResult)
     contents.push("    })")
     contents.push("  })")
     contents.push("})")
@@ -124,12 +146,12 @@ function getFileSpecJson(file) {
   var nomeCortado = nomeArquivo.substring(0, nomeArquivo.length() - 3);
   var arquivoMaisPasta = pastaSpecs + nomeCortado + ".spec.json";
 
-  print('novo arquivo ' + arquivoMaisPasta);
   var novoArquivo = new File(arquivoMaisPasta);
 
   if (novoArquivo.isFile()) {
-    print('achou');
+    
     return readFile(novoArquivo);
+  
   } else {
     print("Não foi encontrado o arquivo " + novoArquivo);
 

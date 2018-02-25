@@ -9,7 +9,7 @@ function exec(describe, it, beforeEach, afterEach, expect, should, assert) {
     describe('API [hello]', function () {
       it('Realizar chamada no endpoint', function () {
         var result = httpClient.post("http://localhost:8778/app/helloWorld/hello").fetch()
-        print(JSON.stringify(result))
+        
         expect(result.code).to.equal(200)
         expect(result.body).to.equal("Hello, you sent me the following params: {}")
       })
