@@ -9,6 +9,8 @@ var Runtime = Java.type("java.lang.Runtime")
 var Thread = Java.type('java.lang.Thread');
 var Scanner = Java.type('java.util.Scanner')
 
+var pastaSpecs = "./app/specs/";
+
 function automator(filename, options) {
   var files = []
   findFiles("./app", files)
@@ -16,6 +18,8 @@ function automator(filename, options) {
   writeTestFiles(files)
   execTests(files)
 }
+
+
 
 
 function execTests(files) {
@@ -104,8 +108,32 @@ function writeTestFile(file) {
  */
 function readFiles(files) {
   files.forEach(function (file) {
-    readFile(file)
+    
+    getFileSpecJson(file);
+
+    //readFile(file)
   })
+}
+
+function getFileSpecJson(file){
+
+  var nomeArquivo = file.getName();
+  var nomeCortado = nomeArquivo.substring(0,nomeArquivo.length()-3); 
+  var arquivoMaisPasta = pastaSpecs+nomeCortado + ".spec.json";
+
+  print('novo arquivo '+ arquivoMaisPasta);
+  var novoArquivo = new File(arquivoMaisPasta);
+
+  if(novoArquivo.isFile()){
+    print('achou');
+    readFile(file);
+  } else{
+    print("Não foi encontrado o arquivo " + novoArquivo);
+
+    return false;
+  }
+  
+
 }
 
 /**
