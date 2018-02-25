@@ -1,0 +1,9 @@
+[
+  {
+    "endPoint": "pesquisar",
+    "method": "post",
+    "params": "",
+    "code": 200,
+    "result": "Imprime o método pesquisar"
+  }
+]

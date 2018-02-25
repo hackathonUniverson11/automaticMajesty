@@ -16,6 +16,7 @@ function automator(filename, options) {
 
   findFiles("./app", files)
   var mapOfTests = readFiles(files)
+  
   writeTestFiles(files, mapOfTests)
   execTests(files)
 }
@@ -45,7 +46,11 @@ function execTests(files) {
 
 function writeTestFiles(files, mapOfTests) {
   files.forEach(function (file) {
+
+  if(mapOfTests[file]){
     writeTestFile(file, mapOfTests[file])
+  }
+
   })
 }
 
@@ -64,6 +69,7 @@ function writeTestFile(file, arrayOfTests) {
   contents.push("")
 
 
+  
   //aqui monta o test
   arrayOfTests.forEach(function (testCase) {
     

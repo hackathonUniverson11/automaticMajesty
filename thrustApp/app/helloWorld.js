@@ -30,7 +30,6 @@ function deleteById (params, request, response) {
 function getById (params, request, response) {
   response.write(1)
 }
-
 exports = {
   hello: hello,
   helloDb: helloDb,
@@ -39,3 +38,4 @@ exports = {
   deleteById:deleteById,
   putById:putById 
 }
+
