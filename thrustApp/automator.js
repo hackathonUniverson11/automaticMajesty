@@ -6,16 +6,17 @@ var BufferedWriter = Java.type("java.io.BufferedWriter")
 var FileWriter = Java.type("java.io.FileWriter")
 var Runtime = Java.type("java.lang.Runtime")
 
-var Thread = Java.type('java.lang.Thread');
+var Thread = Java.type('java.lang.Thread')
 var Scanner = Java.type('java.util.Scanner')
 
 var pastaSpecs = "./app/specs/";
 
 function automator(filename, options) {
   var files = []
+
   findFiles("./app", files)
-  readFiles(files)
-  writeTestFiles(files)
+  var mapOfTests = readFiles(files)
+  writeTestFiles(files, mapOfTests)
   execTests(files)
 }
 
@@ -37,7 +38,7 @@ function execTests(files) {
       proc = Runtime.getRuntime().exec(cmd)
       input = proc.getInputStream()
       sc = new Scanner(input)
-      while(sc.hasNext()){
+      while (sc.hasNext()) {
         print(sc.next())
       }
 
@@ -45,18 +46,17 @@ function execTests(files) {
   }).start();
 }
 
-function writeTestFiles(files) {
+function writeTestFiles(files, mapOfTests) {
   files.forEach(function (file) {
-    writeTestFile(file)
+    writeTestFile(file, mapOfTests[file])
   })
 }
 
-function writeTestFile(file) {
+function writeTestFile(file, arrayOfTests) {
 
   var nomes = file.getName().split('.');
-
-
-  var bw = new BufferedWriter(new FileWriter("./" + nomes[0] + ".spec.js"))
+  var nomeApi = nomes[0];
+  var bw = new BufferedWriter(new FileWriter("./" + nomeApi + ".spec.js"))
 
   var contents = [];
   contents.push("var majesty = require('majesty')")
@@ -68,18 +68,22 @@ function writeTestFile(file) {
 
 
   //aqui monta o test
-  contents.push("describe('Módulo de testes do hello world', function() {")
-  contents.push("")
-  contents.push(" describe('API [hello]', function() {")
-  contents.push("    it('Realizar chamada no endpoint', function() {")
-  contents.push("      var result = httpClient.post('http://localhost:8778/app/helloWorld/hello').fetch()")
-  contents.push("      print(JSON.stringify(result))")
-  contents.push("      expect(result.code).to.equal(200)")
-  contents.push("      expect(result.body).to.equal('Hello, you sent me the following params: {}')")
-  contents.push("    })")
-  contents.push("  })")
-  contents.push("})")
+  arrayOfTests.forEach(function (testCase) {
+    contents.push("describe('Módulo de testes do hello world', function() {")
+    contents.push("")
+    contents.push(" describe('API [hello]', function() {")
+    contents.push("    it('Realizar chamada no endpoint', function() {")
+    contents.push("      var result = httpClient." + testCase.method + "('http://localhost:8778/app/" + nomeApi + "/" + testCase.endPoint + "').fetch()")
+    contents.push("      print(JSON.stringify(result))")
+    contents.push("      expect(result.code).to.equal(200)")
+    contents.push("      expect(result.body).to.equal('Hello, you sent me the following params: {}')")
+    contents.push("    })")
+    contents.push("  })")
+    contents.push("})")
+  })
+
   contents.push("}")
+
 
   //aqui termina
 
@@ -107,32 +111,31 @@ function writeTestFile(file) {
  * @param {*} files
  */
 function readFiles(files) {
+  var mapOfTests = {};
   files.forEach(function (file) {
-    
-    getFileSpecJson(file);
-
-    //readFile(file)
+    mapOfTests[file] = getFileSpecJson(file)
   })
+  return mapOfTests;
 }
 
-function getFileSpecJson(file){
+function getFileSpecJson(file) {
 
   var nomeArquivo = file.getName();
-  var nomeCortado = nomeArquivo.substring(0,nomeArquivo.length()-3); 
-  var arquivoMaisPasta = pastaSpecs+nomeCortado + ".spec.json";
+  var nomeCortado = nomeArquivo.substring(0, nomeArquivo.length() - 3);
+  var arquivoMaisPasta = pastaSpecs + nomeCortado + ".spec.json";
 
-  print('novo arquivo '+ arquivoMaisPasta);
+  print('novo arquivo ' + arquivoMaisPasta);
   var novoArquivo = new File(arquivoMaisPasta);
 
-  if(novoArquivo.isFile()){
+  if (novoArquivo.isFile()) {
     print('achou');
-    readFile(file);
-  } else{
+    return readFile(novoArquivo);
+  } else {
     print("Não foi encontrado o arquivo " + novoArquivo);
 
     return false;
   }
-  
+
 
 }
 
@@ -142,19 +145,17 @@ function getFileSpecJson(file){
  */
 function readFile(file) {
 
-  var linhas = [];
+  var linhas = '';
   var reader = new BufferedReader(new FileReader(file));
 
   var s;
   while ((s = reader.readLine()) != null) {
-
-    if(s.match(/(\w)+(\s*):(\s*)(\w+)/g)){
-      print("Match do regex --> " + s)
-      linhas.push(s)
-    }
+    linhas = linhas.concat(s)
   }
 
   reader.close()
+
+  return JSON.parse(linhas)
 }
 
 /**

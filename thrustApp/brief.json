@@ -1,11 +1,14 @@
 {
   "name": "thrust-app",
   "version": "1.0",
-  "dependencies": [
-    "thrust-bitcodes/http",
-    "thrust-bitcodes/filesystem",
-    "thrust-bitcodes/database",
-    "majesty",
-    "http-client"
-  ]
+  "dependencies": {
+    "bitcodes": [
+      "thrust-bitcodes/http",
+      "thrust-bitcodes/filesystem",
+      "thrust-bitcodes/database",
+      "majesty",
+      "http-client"
+    ],
+    "jars": []
+  }
 }
