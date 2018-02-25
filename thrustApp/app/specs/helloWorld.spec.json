@@ -1,27 +1,16 @@
 [
   {
-    "endPoint": "hello",
-    "method": "POST",
-    "params": [
-      {
-        "nome": "Felipe",
-        "empresa": "Softbox"
-      }
-    ],
-    "result": "Hello Felipe from Softbox"
+    "endPoint": "helloBasic",
+    "method": "post",
+    "params": "[{\"nome\":\"teste\"}]",
+    "code": 200,
+    "result": "Hello"
   },
   {
     "endPoint": "hello",
-    "method": "GET",
-    "params": [
-      {
-        "id": 1
-      }
-    ],
-    "result": {
-      "id" : 1,
-      "nome": "Felipe",
-      "endereco": "Rua mantova"
-    }
+    "method": "post",
+    "params": "[{\"nome\":\"teste\"}]",
+    "code": 200,
+    "result": "Hello, you sent me the following params: [{\"nome\":\"teste\"}]"
   }
 ]

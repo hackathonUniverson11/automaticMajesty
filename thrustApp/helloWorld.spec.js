@@ -8,10 +8,10 @@ describe('Módulo de testes do hello world', function() {
 
  describe('API [hello]', function() {
     it('Realizar chamada no endpoint', function() {
-      var result = httpClient.POST('http://localhost:8778/app/helloWorld/hello',[{"nome":"Felipe","empresa":"Softbox"}]).fetch()
+      var result = httpClient.post('http://localhost:8778/app/helloWorld/helloBasic',"[{\"nome\":\"teste\"}]").fetch()
       print(JSON.stringify(result))
       expect(result.code).to.equal(200)
-      expect(result.body).to.equal('Hello Felipe from Softbox')
+      expect(result.body).to.equal('Hello')
     })
   })
 })
@@ -19,10 +19,10 @@ describe('Módulo de testes do hello world', function() {
 
  describe('API [hello]', function() {
     it('Realizar chamada no endpoint', function() {
-      var result = httpClient.GET('http://localhost:8778/app/helloWorld/hello',[{"id":1}]).fetch()
+      var result = httpClient.post('http://localhost:8778/app/helloWorld/hello',"[{\"nome\":\"teste\"}]").fetch()
       print(JSON.stringify(result))
       expect(result.code).to.equal(200)
-      expect(result.body).to.equal('{"id":1,"nome":"Felipe","endereco":"Rua mantova"}')
+      expect(result.body).to.equal('Hello, you sent me the following params: [{"nome":"teste"}]')
     })
   })
 })

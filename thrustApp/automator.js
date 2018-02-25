@@ -25,7 +25,7 @@ function automator(filename, options) {
 
 function execTests(files) {
   new Thread(function () {
-    Thread.sleep(5000)
+    Thread.sleep(2000)
 
     files.forEach(function (file) {
       var nomes = file.getName().split('.');
@@ -71,7 +71,7 @@ function writeTestFile(file, arrayOfTests) {
   arrayOfTests.forEach(function (testCase) {
     
     var url = "http://localhost:8778/app/" + nomeApi + "/" + testCase.endPoint;
-    var params = "";
+    var params = {};
     var result = "";
     var expectedResult = "";
     if(testCase.params != undefined){
@@ -96,8 +96,7 @@ function writeTestFile(file, arrayOfTests) {
     contents.push(" describe('API [hello]', function() {")
     contents.push("    it('Realizar chamada no endpoint', function() {")
     contents.push("      var result = httpClient." + testCase.method + "('"+ url +"',"+params+").fetch()")
-    contents.push("      print(JSON.stringify(result))")
-    contents.push("      expect(result.code).to.equal(200)")
+    contents.push("      expect(result.code).to.equal("+testCase.code+")")
     contents.push(expectedResult)
     contents.push("    })")
     contents.push("  })")
@@ -157,8 +156,6 @@ function getFileSpecJson(file) {
 
     return false;
   }
-
-
 }
 
 /**
