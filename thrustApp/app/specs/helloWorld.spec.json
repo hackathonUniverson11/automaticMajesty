@@ -1,0 +1,27 @@
+[
+  {
+    "endPoint": "hello",
+    "method": "POST",
+    "params": [
+      {
+        "nome": "Felipe",
+        "empresa": "Softbox"
+      }
+    ],
+    "result": "Hello Felipe from Softbox"
+  },
+  {
+    "endPoint": "hello",
+    "method": "GET",
+    "params": [
+      {
+        "id": 1
+      }
+    ],
+    "result": {
+      "id" : 1,
+      "nome": "Felipe",
+      "endereco": "Rua mantova"
+    }
+  }
+]
