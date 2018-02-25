@@ -20,9 +20,6 @@ function automator(filename, options) {
   execTests(files)
 }
 
-
-
-
 function execTests(files) {
   new Thread(function () {
     Thread.sleep(2000)

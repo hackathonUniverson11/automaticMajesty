@@ -2,15 +2,29 @@
   {
     "endPoint": "helloBasic",
     "method": "post",
-    "params": "[{\"nome\":\"teste\"}]",
+    "params": "",
     "code": 200,
     "result": "Hello"
   },
   {
-    "endPoint": "hello",
-    "method": "post",
-    "params": "[{\"nome\":\"teste\"}]",
+    "endPoint": "putById",
+    "method": "put",
+    "params": "",
     "code": 200,
-    "result": "Hello, you sent me the following params: [{\"nome\":\"teste\"}]"
+    "result": 1
+  },
+  {
+    "endPoint": "deleteById",
+    "method": "delete",
+    "params": "",
+    "code": 200,
+    "result": 1
+  },
+  {
+    "endPoint": "getById",
+    "method": "get",
+    "params": "",
+    "code": 200,
+    "result": 1
   }
 ]

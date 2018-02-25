@@ -8,8 +8,7 @@ describe('Módulo de testes do hello world', function() {
 
  describe('API [hello]', function() {
     it('Realizar chamada no endpoint', function() {
-      var result = httpClient.post('http://localhost:8778/app/helloWorld/helloBasic',"[{\"nome\":\"teste\"}]").fetch()
-      print(JSON.stringify(result))
+      var result = httpClient.post('http://localhost:8778/app/helloWorld/helloBasic',"").fetch()
       expect(result.code).to.equal(200)
       expect(result.body).to.equal('Hello')
     })
@@ -19,10 +18,29 @@ describe('Módulo de testes do hello world', function() {
 
  describe('API [hello]', function() {
     it('Realizar chamada no endpoint', function() {
-      var result = httpClient.post('http://localhost:8778/app/helloWorld/hello',"[{\"nome\":\"teste\"}]").fetch()
-      print(JSON.stringify(result))
+      var result = httpClient.put('http://localhost:8778/app/helloWorld/putById',"").fetch()
       expect(result.code).to.equal(200)
-      expect(result.body).to.equal('Hello, you sent me the following params: [{"nome":"teste"}]')
+      expect(result.body).to.equal('1')
+    })
+  })
+})
+describe('Módulo de testes do hello world', function() {
+
+ describe('API [hello]', function() {
+    it('Realizar chamada no endpoint', function() {
+      var result = httpClient.delete('http://localhost:8778/app/helloWorld/deleteById',"").fetch()
+      expect(result.code).to.equal(200)
+      expect(result.body).to.equal('1')
+    })
+  })
+})
+describe('Módulo de testes do hello world', function() {
+
+ describe('API [hello]', function() {
+    it('Realizar chamada no endpoint', function() {
+      var result = httpClient.get('http://localhost:8778/app/helloWorld/getById',"").fetch()
+      expect(result.code).to.equal(200)
+      expect(result.body).to.equal('1')
     })
   })
 })

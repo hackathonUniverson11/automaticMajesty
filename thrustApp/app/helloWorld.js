@@ -14,15 +14,28 @@ function hello (params, request, response) {
 
 function helloBasic (params, request, response) {
   response.write('Hello')
-  //response.json(params)
 }
 
 function helloDb (params, request, response) {
   response.write(db.select('select * from tabela'))
 }
+function putById (params, request, response) {
+  response.write(1)
+}
+
+function deleteById (params, request, response) {
+  response.write(1)
+}
+
+function getById (params, request, response) {
+  response.write(1)
+}
 
 exports = {
   hello: hello,
   helloDb: helloDb,
-  helloBasic: helloBasic  
+  helloBasic: helloBasic ,
+  getById:getById,
+  deleteById:deleteById,
+  putById:putById 
 }
